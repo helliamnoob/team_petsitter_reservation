@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
     }
     Users.init(
         {
+            userId: {
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: DataTypes.INTEGER,
+            },
             email: {
                 allowNull: false,
                 unique: true,
@@ -26,6 +32,14 @@ module.exports = (sequelize, DataTypes) => {
             password: {
                 allowNull: false,
                 type: DataTypes.STRING,
+            },
+            createdAt: {
+                allowNull: false,
+                type: DataTypes.DATE,
+            },
+            updatedAt: {
+                allowNull: false,
+                type: DataTypes.DATE,
             },
         },
         {
