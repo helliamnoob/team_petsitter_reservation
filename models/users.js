@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       email: {
         allowNull: false,
+        unique: true,
         type: DataTypes.STRING,
       },
       password: {
@@ -36,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       nickname: {
         allowNull: false,
+        unique: true,
         type: DataTypes.STRING,
       },
       createdAt: {
