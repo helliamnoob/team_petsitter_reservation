@@ -25,6 +25,7 @@ router.post('/petsitters/:petsitterId/review', authMiddleware, async (req, res) 
 
     if (!content) return res.status(400).json({ errorMessage: '내용을 입력해주세요.' });
     if (!star) return res.status(400).json({ errorMessage: '평점을 입력해주세요.' });
+    // 해당 펫시터 사용 경험이 없을 경우 리뷰 작성 권한이 없어야 하는데 어떤식으로 구현해야 할까요?
 
     await Reviews.create({
       UserId: userId,
