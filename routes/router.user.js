@@ -132,7 +132,7 @@ router.get('/userFire', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await Users.findOne({ email });
+    const user = await Users.findOne({ where: { email } });
 
     if (!email || password !== user.password) {
       return res.status(412).json({ errorMessage: '이메일 또는 패스워드를 확인해 주세요.' });
