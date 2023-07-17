@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": "skfk0103",
-    "database": "database_petsitter",
-    "host": "express-database.ci1neyqx025y.ap-northeast-2.rds.amazonaws.com",
+    "password": "aaaa1111",
+    "database": "petsitter",
+    "host": "db-petsitter.crrp24tq8a4l.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {
