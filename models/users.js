@@ -55,7 +55,6 @@ module.exports = (sequelize, DataTypes) => {
   });
   return Users;
 };
-=======
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Users extends Model {
