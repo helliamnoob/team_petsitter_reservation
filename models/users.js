@@ -1,6 +1,4 @@
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
     /**
@@ -10,98 +8,51 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Reviews,{
-        sourceKey: "userId",
+      this.hasMany(models.Reviews, {
+        sourceKey: 'userId',
         foreignKey: 'UserId',
-      })
-      this.hasMany(models.Reservations,{
-        sourceKey: "userId",
+      });
+      this.hasMany(models.Reservations, {
+        sourceKey: 'userId',
         foreignKey: 'UserId',
-      })
+      });
     }
   }
-  Users.init({
-    userId: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.INTEGER
+  Users.init(
+    {
+      userId: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      email: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      password: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      nickname: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
     },
-    email: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
-    password: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
-    nickname: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
-    createdAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
-    },
-    updatedAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
+    {
+      sequelize,
+      modelName: 'Users',
     }
-  }, {
-    sequelize,
-    modelName: 'Users',
-  });
+  );
   return Users;
-};
-const { Model } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-    class Users extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate(models) {
-            // define association here
-        }
-    }
-    Users.init(
-        {
-            userId: {
-                allowNull: false,
-                autoIncrement: true,
-                primaryKey: true,
-                type: DataTypes.INTEGER,
-            },
-            email: {
-                allowNull: false,
-                unique: true,
-                type: DataTypes.STRING,
-            },
-            nickname: {
-                allowNull: false,
-                unique: true,
-                type: DataTypes.STRING,
-            },
-            password: {
-                allowNull: false,
-                type: DataTypes.STRING,
-            },
-            createdAt: {
-                allowNull: false,
-                type: DataTypes.DATE,
-            },
-            updatedAt: {
-                allowNull: false,
-                type: DataTypes.DATE,
-            },
-        },
-        {
-            sequelize,
-            modelName: 'Users',
-        }
-    );
-    return Users;
 };
