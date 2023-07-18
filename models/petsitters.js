@@ -12,23 +12,23 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.hasMany(models.Reviews,{
-        sourceKey: "petsitterId",
-        foreignKey: 'PetsitterId',
+        sourceKey: "petsitter_id",
+        foreignKey: 'Petsitter_id',
       })
       this.hasMany(models.Reservations,{
-        sourceKey: "petsitterId",
-        foreignKey: 'PetsitterId',
+        sourceKey: "petsitter_id",
+        foreignKey: 'Petsitter_id',
       })
     }
   }
   Petsitters.init({
-    petsitterId: {
+    petsitter_id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    carrer: {
+    career: {
       allowNull: false,
       type: DataTypes.INTEGER
     },
