@@ -22,8 +22,8 @@ router.post('/petsitters/:petsitterId/reservation', authMiddleware, async (req, 
     const { userId } = res.locals.user;
     const { petsitterId } = req.params;
     const { date } = req.body;
- 
-    if (!date) return res.status(400).json({ errorMessage: '날짜를 선택해주세요.' });
+
+    if (!date) return res.status(412).json({ errorMessage: '날짜를 선택해주세요.' });
 
     await Reservations.create({
       UserId: userId,
@@ -49,13 +49,10 @@ router.put('/reservation/:reservationId', authMiddleware, async (req, res) => {
     });
 
     if (userId !== reservation.UserId)
-      return res.status(401).json({ errorMessage: '예약의 수정 권한이 없습니다.' });
-    if (!date) return res.status(400).json({ errorMessage: '날짜를 입력해주세요.' });
+      return res.status(403).json({ errorMessage: '예약의 수정 권한이 없습니다.' });
+    if (!date) return res.status(412).json({ errorMessage: '날짜를 입력해주세요.' });
 
-    await Reservations.update(
-      { date },
-      { where: { reservationId } }
-    );
+    await Reservations.update({ date }, { where: { reservationId } });
 
     res.status(200).json({ message: '예약을 수정하였습니다.' });
   } catch (err) {
@@ -72,7 +69,7 @@ router.delete('/reservation/:reservationId', authMiddleware, async (req, res) =>
     const reservation = await Reservations.findOne({ where: { reservationId } });
     console.log(reservation);
     if (userId !== reservation.UserId)
-      return res.status(401).json({ errorMessage: '예약의 삭제 권한이 없습니다.' });
+      return res.status(403).json({ errorMessage: '예약의 삭제 권한이 없습니다.' });
 
     await reservation.destroy();
 
@@ -82,6 +79,5 @@ router.delete('/reservation/:reservationId', authMiddleware, async (req, res) =>
     res.status(500).json({ errorMessage: '예약 삭제에 실패하였습니다.' });
   }
 });
-
 
 module.exports = router;
