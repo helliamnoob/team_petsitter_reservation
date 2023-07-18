@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
 const authMiddleware = require('../middlewares/auth-middleware.js');
 const { Users } = require('../models');
@@ -23,7 +23,7 @@ router.post('/signup', async (req, res) => {
 
     // 이메일 중복 확인
     const Email = await Users.findOne({ where: { email } });
-    if (Email) return res.status(412).json({ errorMessage: '이미 존재하는 이메일 입니다.' });
+    if (Email) return res.status(409).json({ errorMessage: '이미 존재하는 이메일 입니다.' });
 
     // 닉네임 형식 확인
     const nicknameCheck = /^[a-zA-Z0-9]{3,}$/.test(nickname);
@@ -36,7 +36,7 @@ router.post('/signup', async (req, res) => {
     // 닉네임 중복 확인
     const Nickname = await Users.findOne({ where: { nickname } });
     if (Nickname) {
-      return res.status(412).json({
+      return res.status(409).json({
         errorMessage: '이미 존재하는 닉네임 입니다.',
       });
     }
@@ -48,7 +48,9 @@ router.post('/signup', async (req, res) => {
 
     // 닉네임 패스워드 일치여부 확인
     if (nickname === password) {
-      return res.status(412).json({ errorMessage: '닉네임과 패스워드가 같습니다.' });
+      return res
+        .status(412)
+        .json({ errorMessage: '비밀번호는 nickname과 같은 값이 입력될 수 없습니다' });
     }
 
     // 패스워드 일치 확인
@@ -73,7 +75,7 @@ router.post('/signup', async (req, res) => {
         pass: 'rnjsdbsdud00@', // 해당 계정의 비밀번호를 입력한다.
       },
     });
-    console.log(transporter);
+    // console.log(transporter);
 
     // async..await is not allowed in global scope, must use a wrapper
     async function main() {
@@ -93,25 +95,27 @@ router.post('/signup', async (req, res) => {
       // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
     }
 
-    main().catch(console.error);
+    main().catch((err) => {
+      console.log(err);
+    });
 
     // 회원가입
     await Users.create({ email, nickname, password });
     res.status(201).json({ message: '회원가입을 축하드립니다.' });
   } catch (err) {
     console.log(err);
-    res.status(400).json({ errorMessage: '요청하신 데이터 형식이 올바르지 않습니다.' });
+    res.status(500).json({ errorMessage: '요청하신 데이터 형식이 올바르지 않습니다.' });
     return;
   }
 });
 
 // 이메일 인증 실험차 만든 회원탈퇴 기능
-router.get('/userFire', async (req, res) => {
+router.get('/users', async (req, res) => {
   const { email } = req.body;
   try {
     const user = await Users.findOne({ where: { email } });
     if (!user) {
-      return res.status(412).json({ errorMessage: '해당 유저가 존재하지 않습니다.' });
+      return res.status(409).json({ errorMessage: '해당 유저가 존재하지 않습니다.' });
     }
     // 프라미스 상태값은 총 3가지가 있다 = 시작, 대기, 완료
     await user.destroy();
@@ -124,7 +128,7 @@ router.get('/userFire', async (req, res) => {
     // 실제 에러문은 따로 저장해서 어떻ㄱ ㅔ처리를 하겠다라는 정책이 있으면은 실제와 비슷하게 운영이 가능할 것 같다.
   } catch (err) {
     console.log(err);
-    return res.status(400).json({ errorMessage: '오류' });
+    return res.status(500).json({ errorMessage: '오류' });
   }
 });
 
@@ -133,34 +137,39 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await Users.findOne({ where: { email } });
-
-    if (!email || password !== user.password) {
-      return res.status(412).json({ errorMessage: '이메일 또는 패스워드를 확인해 주세요.' });
+    // 유저확인
+    if (!user) {
+      return res.status(409).json({ errorMessage: '존재하지 않는 계정입니다.' });
+    }
+    // 패스워드 확인
+    if (email !== user.email || password !== user.password) {
+      return res.status(409).json({ errorMessage: '이메일 또는 패스워드를 확인해 주세요.' });
     }
 
     // jwt 생성
-    const token = jwt.sign({ user_id: user.user_id }, 'customized-secret-key');
+    const token = jwt.sign({ user_id: user.user_id }, process.env.SECRET_KEY);
 
     // 쿠키 생성
-    res.cookie('Authorization', `Bearer ${token}`).status(200).json({ token });
+    res.cookie('Authorization', `Bearer ${token}`).status(201).json({ token });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ errorMessage: '로그인에 실패하였습니다.' });
+    res.status(500).json({ errorMessage: '로그인에 실패하였습니다.' });
   }
 });
 
 // 로그아웃
 router.get('/logout', authMiddleware, async (req, res) => {
   try {
-    res.clearCookie('Authorization').json({ message: '로그아웃 되었습니다.' });
+    res.clearCookie('Authorization').status(200).json({ message: '로그아웃 되었습니다.' });
   } catch (err) {
     console.log(err);
-    return res.status(400).send({ errorMessage: '로그아웃에 실패하였습니다.' });
+    return res.status(500).send({ errorMessage: '로그아웃에 실패하였습니다.' });
   }
 });
 
 module.exports = router;
 
+// '"동물나라👻" <foo@example.com>'
 // 해당 오류 메시지 "getaddrinfo ENOTFOUND inborn96@naver.com"와 추가 정보는 DNS 조회 중에 주어진 호스트를 찾을 수 없다는 것을 나타냅니다. 아래는 상세한 오류 정보의 해석입니다:
 
 // - `errno: -3008`: 오류 번호로, `-3008`은 DNS 오류를 나타냅니다.
