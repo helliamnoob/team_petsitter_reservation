@@ -16,6 +16,7 @@ router.get('/petsitters', async (req, res) => {
 
 // Petsitter 검색 API
 router.get('/petsitters/search', async (req, res) => {
+
     const { category, keyword } = req.query;
 
     try {
@@ -31,7 +32,7 @@ router.get('/petsitters/search', async (req, res) => {
         }
 
         // 카테고리가 'carrer'인 경우
-        if (category === 'carrer') {
+        if (category === 'career') {
             searchCondition = {
                 carrer: {
                     [Op.gt]: parseInt(keyword),

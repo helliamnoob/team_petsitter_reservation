@@ -5,10 +5,10 @@ const authMiddleware = require('../middlewares/auth-middleware');
 const { Petsitters } = require('../models');
 const { Reservations } = require('../models');
 
-router.get('/reservation', authMiddleware, async (req, res) => {
+router.get('/reservations', authMiddleware, async (req, res) => {
   try {
-    const { userId } = res.locals.user;
-    const reservation = await Reservations.findOne({ where: { UserId: userId } });
+    const { user_id } = res.locals.user;
+    const reservation = await Reservations.findOne({ where: { User_id: user_id } });
 
     res.status(200).json({ reservation });
   } catch (err) {
@@ -17,17 +17,17 @@ router.get('/reservation', authMiddleware, async (req, res) => {
   }
 });
 
-router.post('/petsitters/:petsitterId/reservation', authMiddleware, async (req, res) => {
+router.post('/petsitters/:petsitterid/reservations', authMiddleware, async (req, res) => {
   try {
-    const { userId } = res.locals.user;
-    const { petsitterId } = req.params;
-    const { date } = req.body;
+    const { user_id } = res.locals.user;
+    const { petsitter_id } = req.params;
+    const { start_date, end_date } = req.body;
  
-    if (!date) return res.status(400).json({ errorMessage: '날짜를 선택해주세요.' });
+    if (!start_date || !end_date) return res.status(400).json({ errorMessage: '날짜를 선택해주세요.' });
 
     await Reservations.create({
-      UserId: userId,
-      PetsitterId: petsitterId,
+      User_id: user_id,
+      Petsitter_id: petsitter_id,
       date,
     });
 
@@ -38,23 +38,23 @@ router.post('/petsitters/:petsitterId/reservation', authMiddleware, async (req, 
   }
 });
 
-router.put('/reservation/:reservationId', authMiddleware, async (req, res) => {
+router.put('/reservations/:reservation_id', authMiddleware, async (req, res) => {
   try {
-    const { userId } = res.locals.user;
-    const { reservationId } = req.params;
-    const { date } = req.body;
+    const { user_id } = res.locals.user;
+    const { reservation_id } = req.params;
+    const { start_date, end_date } = req.body;
 
     const reservation = await Reservations.findOne({
-      where: { reservationId },
+      where: { reservation_id },
     });
 
-    if (userId !== reservation.UserId)
-      return res.status(401).json({ errorMessage: '예약의 수정 권한이 없습니다.' });
-    if (!date) return res.status(400).json({ errorMessage: '날짜를 입력해주세요.' });
+    if (user_id !== reservation.User_id)
+      return res.status(403).json({ errorMessage: '예약의 수정 권한이 없습니다.' });
+    if (!date) return res.status(412).json({ errorMessage: '날짜를 입력해주세요.' });
 
     await Reservations.update(
-      { date },
-      { where: { reservationId } }
+      { start_date, end_date },
+      { where: { reservation_id } }
     );
 
     res.status(200).json({ message: '예약을 수정하였습니다.' });
@@ -64,15 +64,15 @@ router.put('/reservation/:reservationId', authMiddleware, async (req, res) => {
   }
 });
 
-router.delete('/reservation/:reservationId', authMiddleware, async (req, res) => {
+router.delete('/reservations/:reservation_id', authMiddleware, async (req, res) => {
   try {
-    const { userId } = res.locals.user;
-    const { reservationId } = req.params;
+    const { user_id } = res.locals.user;
+    const { reservation_id } = req.params;
 
-    const reservation = await Reservations.findOne({ where: { reservationId } });
+    const reservation = await Reservations.findOne({ where: { reservation_id } });
     console.log(reservation);
-    if (userId !== reservation.UserId)
-      return res.status(401).json({ errorMessage: '예약의 삭제 권한이 없습니다.' });
+    if (user_id !== reservation.User_id)
+      return res.status(403).json({ errorMessage: '예약의 삭제 권한이 없습니다.' });
 
     await reservation.destroy();
 
@@ -82,6 +82,5 @@ router.delete('/reservation/:reservationId', authMiddleware, async (req, res) =>
     res.status(500).json({ errorMessage: '예약 삭제에 실패하였습니다.' });
   }
 });
-
 
 module.exports = router;
