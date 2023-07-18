@@ -16,13 +16,13 @@ router.get('/petsitters', async (req, res) => {
 
 // Petsitter 검색 API
 router.get('/petsitters/search', async (req, res) => {
-    const { carrer } = req.query;
+    const { career } = req.query;
 
     try {
         const petsitters = await Petsitters.findAll({
             where: {
                 carrer: {
-                    [Op.gt]: carrer // Op.gt를 사용하여 career보다 큰 데이터를 찾음
+                    [Op.gt]: career // Op.gt를 사용하여 career보다 큰 데이터를 찾음
                 }
             }
         });

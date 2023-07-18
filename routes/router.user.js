@@ -139,7 +139,7 @@ router.post('/login', async (req, res) => {
     }
 
     // jwt 생성
-    const token = jwt.sign({ userId: user.userId }, 'customized-secret-key');
+    const token = jwt.sign({ user_id: user.user_id }, 'customized-secret-key');
 
     // 쿠키 생성
     res.cookie('Authorization', `Bearer ${token}`).status(200).json({ token });
