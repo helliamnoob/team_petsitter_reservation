@@ -16,21 +16,40 @@ router.get('/petsitters', async (req, res) => {
 
 // Petsitter 검색 API
 router.get('/petsitters/search', async (req, res) => {
-    const { carrer } = req.query;
+    const { category, keyword } = req.query;
 
     try {
-        const petsitters = await Petsitters.findAll({
-            where: {
+        let searchCondition = {};
+
+        // 카테고리가 'name'인 경우
+        if (category === 'name') {
+            searchCondition = {
+                name: {
+                    [Op.like]: `%${keyword}%`,
+                },
+            };
+        }
+
+        // 카테고리가 'carrer'인 경우
+        if (category === 'carrer') {
+            searchCondition = {
                 carrer: {
-                    [Op.gt]: carrer // Op.gt를 사용하여 career보다 큰 데이터를 찾음
-                }
-            }
+                    [Op.gt]: parseInt(keyword),
+                },
+            };
+        }
+
+        const petsitters = await Petsitters.findAll({
+            where: searchCondition,
         });
+
         res.status(200).json(petsitters);
     } catch (err) {
         console.error(err);
         res.status(500).json({ errorMessage: 'Petsitter 검색에 실패했습니다.' });
     }
 });
+
+module.exports = router;
 
 module.exports = router;
