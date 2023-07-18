@@ -71,7 +71,7 @@ router.delete('/reviews/:review_id', authMiddleware, async (req, res) => {
     const review = await Reviews.findOne({ where: { review_id } });
 
     if (user_id !== review.User_id)
-      return res.status(401).json({ errorMessage: '댓글의 삭제 권한이 없습니다.' });
+      return res.status(403).json({ errorMessage: '댓글의 삭제 권한이 없습니다.' });
 
     await review.destroy();
 
