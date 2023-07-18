@@ -49,8 +49,8 @@ router.put('/reservations/:reservation_id', authMiddleware, async (req, res) => 
     });
 
     if (user_id !== reservation.User_id)
-      return res.status(401).json({ errorMessage: '예약의 수정 권한이 없습니다.' });
-    if (!date) return res.status(400).json({ errorMessage: '날짜를 입력해주세요.' });
+      return res.status(403).json({ errorMessage: '예약의 수정 권한이 없습니다.' });
+    if (!date) return res.status(412).json({ errorMessage: '날짜를 입력해주세요.' });
 
     await Reservations.update(
       { start_date, end_date },
@@ -72,7 +72,7 @@ router.delete('/reservations/:reservation_id', authMiddleware, async (req, res) 
     const reservation = await Reservations.findOne({ where: { reservation_id } });
     console.log(reservation);
     if (user_id !== reservation.User_id)
-      return res.status(401).json({ errorMessage: '예약의 삭제 권한이 없습니다.' });
+      return res.status(403).json({ errorMessage: '예약의 삭제 권한이 없습니다.' });
 
     await reservation.destroy();
 
@@ -82,6 +82,5 @@ router.delete('/reservations/:reservation_id', authMiddleware, async (req, res) 
     res.status(500).json({ errorMessage: '예약 삭제에 실패하였습니다.' });
   }
 });
-
 
 module.exports = router;
