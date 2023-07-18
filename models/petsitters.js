@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Reviews,{
+      this.hasMany(models.Reviews, {
         sourceKey: "petsitterId",
         foreignKey: 'PetsitterId',
       })
-      this.hasMany(models.Reservations,{
+      this.hasMany(models.Reservations, {
         sourceKey: "petsitterId",
         foreignKey: 'PetsitterId',
       })
@@ -26,9 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
+      field: 'petsitter_Id',
       type: DataTypes.INTEGER
     },
-    carrer: {
+    career: {
       allowNull: false,
       type: DataTypes.INTEGER
     },
