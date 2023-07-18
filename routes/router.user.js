@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
 const authMiddleware = require('../middlewares/auth-middleware.js');
 const { Users } = require('../models');
@@ -73,7 +73,7 @@ router.post('/signup', async (req, res) => {
         pass: 'rnjsdbsdud00@', // 해당 계정의 비밀번호를 입력한다.
       },
     });
-    console.log(transporter);
+    // console.log(transporter);
 
     // async..await is not allowed in global scope, must use a wrapper
     async function main() {
@@ -93,7 +93,9 @@ router.post('/signup', async (req, res) => {
       // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
     }
 
-    main().catch(console.error);
+    main().catch((err) => {
+      console.log(err);
+    });
 
     // 회원가입
     await Users.create({ email, nickname, password });
@@ -133,13 +135,17 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await Users.findOne({ where: { email } });
-
-    if (!email || password !== user.password) {
+    // 유저확인
+    if (!user) {
+      return res.status(412).json({ errorMessage: '존재하지 않는 계정입니다.' });
+    }
+    // 패스워드 확인
+    if (email !== user.email || password !== user.password) {
       return res.status(412).json({ errorMessage: '이메일 또는 패스워드를 확인해 주세요.' });
     }
 
     // jwt 생성
-    const token = jwt.sign({ user_id: user.user_id }, 'customized-secret-key');
+    const token = jwt.sign({ user_id: user.user_id }, process.env.SECRET_KEY);
 
     // 쿠키 생성
     res.cookie('Authorization', `Bearer ${token}`).status(200).json({ token });
@@ -161,6 +167,7 @@ router.get('/logout', authMiddleware, async (req, res) => {
 
 module.exports = router;
 
+// '"동물나라👻" <foo@example.com>'
 // 해당 오류 메시지 "getaddrinfo ENOTFOUND inborn96@naver.com"와 추가 정보는 DNS 조회 중에 주어진 호스트를 찾을 수 없다는 것을 나타냅니다. 아래는 상세한 오류 정보의 해석입니다:
 
 // - `errno: -3008`: 오류 번호로, `-3008`은 DNS 오류를 나타냅니다.
