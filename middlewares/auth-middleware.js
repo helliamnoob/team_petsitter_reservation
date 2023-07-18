@@ -12,8 +12,8 @@ module.exports = async (req, res, next) => {
 
   // 시크릿키 일치 검증
   try {
-    const { userId } = jwt.verify(authToken, 'customized-secret-key');
-    const user = await Users.findOne({ userId });
+    const { user_id } = jwt.verify(authToken, 'customized-secret-key');
+    const user = await Users.findOne({ where: { user_id } });
 
     res.locals.user = user;
     next();
