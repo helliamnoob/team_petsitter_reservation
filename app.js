@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const usersRouter = require('./routes/router.user');
 const reviewsRouter = require('./routes/router.review');
 const petsittersRouter = require('./routes/router.petsitter.js');
+const reservationRouter = require('./routes/router.reservation');
 
 
 const HOST = '127.0.0.1';
@@ -20,7 +21,7 @@ app.use(cookieParser());
 //     return res.status(200).json({ message: '안녕' });
 // });
 
-app.use('/', [usersRouter, reviewsRouter, petsittersRouter]);
+app.use('/', [usersRouter, reviewsRouter, petsittersRouter,reservationRouter]);
 
 app.listen(PORT, HOST, () => {
   console.log('Server is listening...', PORT);
