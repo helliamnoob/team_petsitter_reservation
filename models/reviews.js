@@ -12,23 +12,23 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.Users,{
-        targetKey: 'userId', 
-        foreignKey: 'UserId', 
+        targetKey: 'user_id', 
+        foreignKey: 'User_id', 
       });
       this.belongsTo(models.Petsitters,{
-        targetKey: 'petsitterId', 
-        foreignKey: 'PetsitterId', 
+        targetKey: 'petsitter_id', 
+        foreignKey: 'Petsitter_id', 
       });
     }
   }
   Reviews.init({
-    reviewId: {
+    review_id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    UserId: {
+    User_id: {
       allowNull: false,
       type: DataTypes.INTEGER,
       references:{
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'CASCADE'
     },
-    PetsitterId: {
+    Petsitter_id: {
       allowNull: false,
       type: DataTypes.INTEGER,
       references:{
@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING
     },
-    star:{
+    rating:{
       allowNull: false,
       type: DataTypes.INTEGER
     },
