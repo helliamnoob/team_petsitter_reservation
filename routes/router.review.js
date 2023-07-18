@@ -4,7 +4,7 @@ const router = express.Router();
 const authMiddleware = require('../middlewares/auth-middleware');
 const { Reviews } = require('../models');
 
-router.get('/petsitters/:petsitterId/review', async (req, res) => {
+router.get('/petsitters/:petsitter_id/reviews', async (req, res) => {
   try {
     const reviews = await Reviews.findAll({
       order: [['createdAt', 'DESC']],
@@ -17,10 +17,10 @@ router.get('/petsitters/:petsitterId/review', async (req, res) => {
   }
 });
 
-router.post('/petsitters/:petsitterId/review', authMiddleware, async (req, res) => {
+router.post('/petsitters/:petsitter_id/reviews', authMiddleware, async (req, res) => {
   try {
-    const { userId } = res.locals.user;
-    const { petsittersId } = req.params;
+    const { user_id } = res.locals.user;
+    const { petsitter_id } = req.params;
     const { content, star } = req.body;
 
     if (!content) return res.status(400).json({ errorMessage: '내용을 입력해주세요.' });
@@ -28,8 +28,8 @@ router.post('/petsitters/:petsitterId/review', authMiddleware, async (req, res) 
     // 해당 펫시터 사용 경험이 없을 경우 리뷰 작성 권한이 없어야 하는데 어떤식으로 구현해야 할까요?
 
     await Reviews.create({
-      UserId: userId,
-      PetsittersId: petsittersId,
+      User_id: user_id,
+      Petsitter_id: petsitter_id,
       content,
       star,
     });
@@ -41,20 +41,20 @@ router.post('/petsitters/:petsitterId/review', authMiddleware, async (req, res) 
   }
 });
 
-router.put('/petsitters/:petsitterId/review/:reviewId', authMiddleware, async (req, res) => {
+router.put('/reviews/:review_id', authMiddleware, async (req, res) => {
   try {
-    const { userId } = res.locals.user;
-    const { reviewId } = req.params;
+    const { user_id } = res.locals.user;
+    const { review_id } = req.params;
     const { content, star } = req.body;
 
-    const review = await Reviews.findOne({ where: { reviewId } });
+    const review = await Reviews.findOne({ where: { review_id } });
 
-    if (userId !== review.UserId)
+    if (user_id !== review.User_id)
       return res.status(401).json({ errorMessage: '댓글의 수정 권한이 없습니다.' });
     if (!content) return res.status(400).json({ errorMessage: '내용을 입력해주세요.' });
     if (!star) return res.status(400).json({ errorMessage: '평점을 입력해주세요.' });
 
-    await Reviews.update({ content, star }, { where: { reviewId } });
+    await Reviews.update({ content, star }, { where: { review_id } });
 
     res.status(200).json({ message: '댓글을 수정하였습니다.' });
   } catch (err) {
@@ -63,14 +63,14 @@ router.put('/petsitters/:petsitterId/review/:reviewId', authMiddleware, async (r
   }
 });
 
-router.delete('/petsitters/:petsitterId/review/:reviewId', authMiddleware, async (req, res) => {
+router.delete('/reviews/:review_id', authMiddleware, async (req, res) => {
   try {
-    const { userId } = res.locals.user;
-    const { reviewId } = req.params;
+    const { user_id } = res.locals.user;
+    const { review_id } = req.params;
 
-    const review = await Reviews.findOne({ where: { reviewId } });
+    const review = await Reviews.findOne({ where: { review_id } });
 
-    if (userId !== review.UserId)
+    if (user_id !== review.User_id)
       return res.status(401).json({ errorMessage: '댓글의 삭제 권한이 없습니다.' });
 
     await review.destroy();
@@ -81,7 +81,5 @@ router.delete('/petsitters/:petsitterId/review/:reviewId', authMiddleware, async
     res.status(500).json({ errorMessage: '댓글 삭제에 실패하였습니다.' });
   }
 });
-
-// 해치웠나
 
 module.exports = router;
