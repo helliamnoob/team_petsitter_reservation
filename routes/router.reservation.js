@@ -17,18 +17,20 @@ router.get('/reservations', authMiddleware, async (req, res) => {
   }
 });
 
-router.post('/petsitters/:petsitterid/reservations', authMiddleware, async (req, res) => {
+router.post('/petsitters/:petsitter_id/reservations', authMiddleware, async (req, res) => {
   try {
     const { user_id } = res.locals.user;
     const { petsitter_id } = req.params;
     const { start_date, end_date } = req.body;
- 
-    if (!start_date || !end_date) return res.status(400).json({ errorMessage: '날짜를 선택해주세요.' });
+
+    if (!start_date || !end_date)
+      return res.status(400).json({ errorMessage: '날짜를 선택해주세요.' });
 
     await Reservations.create({
       User_id: user_id,
       Petsitter_id: petsitter_id,
-      date,
+      start_date,
+      end_date,
     });
 
     res.status(201).json({ message: '예약에 성공하였습니다.' });
@@ -52,10 +54,7 @@ router.put('/reservations/:reservation_id', authMiddleware, async (req, res) => 
       return res.status(403).json({ errorMessage: '예약의 수정 권한이 없습니다.' });
     if (!date) return res.status(412).json({ errorMessage: '날짜를 입력해주세요.' });
 
-    await Reservations.update(
-      { start_date, end_date },
-      { where: { reservation_id } }
-    );
+    await Reservations.update({ start_date, end_date }, { where: { reservation_id } });
 
     res.status(200).json({ message: '예약을 수정하였습니다.' });
   } catch (err) {

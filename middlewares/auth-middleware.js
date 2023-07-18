@@ -1,5 +1,6 @@
 const { Users } = require('../models');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 module.exports = async (req, res, next) => {
   const { Authorization } = req.cookies;
@@ -12,8 +13,8 @@ module.exports = async (req, res, next) => {
 
   // 시크릿키 일치 검증
   try {
-    const { userId } = jwt.verify(authToken, 'customized-secret-key');
-    const user = await Users.findOne({ userId });
+    const { user_id } = jwt.verify(authToken, process.env.SECRET_KEY);
+    const user = await Users.findOne({ where: { user_id } });
 
     res.locals.user = user;
     next();
