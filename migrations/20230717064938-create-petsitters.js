@@ -3,13 +3,13 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Petsitters', {
-      petsitterId: {
+      petsitter_id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      carrer: {
+      career: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
