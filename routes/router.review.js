@@ -31,7 +31,7 @@ router.post('/petsitters/:petsitter_id/reviews', authMiddleware, async (req, res
       User_id: user_id,
       Petsitter_id: petsitter_id,
       content,
-      star,
+      rating,
     });
 
     res.status(201).json({ message: '리뷰 작성에 성공하였습니다.' });
