@@ -31,10 +31,10 @@ router.get('/petsitters/search', async (req, res) => {
             };
         }
 
-        // 카테고리가 'carrer'인 경우
+        // 카테고리가 'career'인 경우
         if (category === 'career') {
             searchCondition = {
-                carrer: {
+                career: {
                     [Op.gt]: parseInt(keyword),
                 },
             };
@@ -53,4 +53,3 @@ router.get('/petsitters/search', async (req, res) => {
 
 module.exports = router;
 
-module.exports = router;
