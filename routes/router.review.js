@@ -54,7 +54,7 @@ router.put('/reviews/:review_id', authMiddleware, async (req, res) => {
     if (!content) return res.status(412).json({ errorMessage: '내용을 입력해주세요.' });
     if (!rating) return res.status(412).json({ errorMessage: '평점을 입력해주세요.' });
 
-    await Reviews.update({ content, star }, { where: { review_id } });
+    await Reviews.update({ content, rating }, { where: { review_id } });
 
     res.status(200).json({ message: '댓글을 수정하였습니다.' });
   } catch (err) {
