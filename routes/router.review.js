@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authMiddleware = require('../middlewares/auth-middleware');
-const { Reviews } = require('../models');
+const { Reviews, Reservations } = require('../models');
 
 router.get('/petsitters/:petsitter_id/reviews', async (req, res) => {
   try {
@@ -23,9 +23,12 @@ router.post('/petsitters/:petsitter_id/reviews', authMiddleware, async (req, res
     const { petsitter_id } = req.params;
     const { content, rating } = req.body;
 
+    const bookingConfirmation = await Reservations.findOne({ where: { User_id: user_id, Petsitter_id: petsitter_id}});
+
+    if (!bookingConfirmation)
+      return res.status(403).json({ errorMessage: '리뷰 작성 권한이 없습니다.' });
     if (!content) return res.status(412).json({ errorMessage: '내용을 입력해주세요.' });
     if (!rating) return res.status(412).json({ errorMessage: '평점을 입력해주세요.' });
-    // 해당 펫시터 사용 경험이 없을 경우 리뷰 작성 권한이 없어야 하는데 어떤식으로 구현해야 할까요?
 
     await Reviews.create({
       User_id: user_id,
