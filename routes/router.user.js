@@ -167,6 +167,39 @@ router.get('/logout', authMiddleware, async (req, res) => {
   }
 });
 
+// 회원탈퇴
+router.delete('/users/:user_id', authMiddleware, async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const loggedInId = res.locals.user.user_id;
+    const userPassword = res.locals.user.password;
+    const { password, confirm } = req.body;
+    console.log(userPassword, password);
+    console.log(user_id, loggedInId);
+    const user = await Users.findOne({ where: { user_id } });
+    if (!user) {
+      return res.status(409).json({ errorMessage: '해당 유저가 존재하지 않습니다.' });
+    }
+    if (userPassword !== password) {
+      return res.status(412).json({ errorMessage: '현재 유저의 비밀번호와 일치하지 않습니다.' });
+    }
+    if (password !== confirm) {
+      return res.status(412).json({ errorMessage: '비밀번호 확인값이 일치하지 않습니다.' });
+    }
+
+    if (user_id !== String(loggedInId)) {
+      return res.status(403).json({ errorMessage: '전달된 쿠키에서 오류가 발생하였습니다.' });
+    } else {
+      // 유저정보 지우기       코드가 끝나기 전까지 뒤에 있는 걸 진행하지 않게 하기 위해 await 붙임
+      await Users.destroy({ where: { user_id } });
+      return res.status(200).json({ message: '성공적으로 회원탈퇴가 완료되었습니다.' });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ errorMessage: '회원탈퇴에 실패하였습니다.' });
+  }
+});
+
 module.exports = router;
 
 // '"동물나라👻" <foo@example.com>'

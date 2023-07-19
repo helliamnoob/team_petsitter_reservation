@@ -17,7 +17,7 @@ router.get('/reservations', authMiddleware, async (req, res) => {
   }
 });
 
-router.post('/petsitters/:petsitterid/reservations', authMiddleware, async (req, res) => {
+router.post('/petsitters/:petsitter_id/reservations', authMiddleware, async (req, res) => {
   try {
     const { user_id } = res.locals.user;
     const { petsitter_id } = req.params;
@@ -28,7 +28,8 @@ router.post('/petsitters/:petsitterid/reservations', authMiddleware, async (req,
     await Reservations.create({
       User_id: user_id,
       Petsitter_id: petsitter_id,
-      date,
+      start_date,
+      end_date
     });
 
     res.status(201).json({ message: '예약에 성공하였습니다.' });
