@@ -15,10 +15,8 @@ module.exports = async (req, res, next) => {
 
   // 시크릿키 일치 검증
   try {
-    // auth토큰을 customized-secret-key라는 키값으로 해석해서 그 안에 담긴 userId를 상수userId에 할당
-    const { userId } = jwt.verify(authToken, 'customized-secret-key');
-    // userId 에 해당하는 유저를 찾아서 상수user에 할당
-    const user = await Users.findOne({ userId });
+    const { user_id } = jwt.verify(authToken, 'customized-secret-key');
+    const user = await Users.findOne({ where: { user_id } });
 
     // 할당된 유저를 res.locals.user에 할당
     res.locals.user = user;
