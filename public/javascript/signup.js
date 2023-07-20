@@ -5,26 +5,10 @@ signupForm.addEventListener('submit', async (e) => {
   // 페이지 리로드 방지
   e.preventDefault();
 
-  //   const formData = new FormData(this);
-  //   const email = formData.get('email');
-  //   const nickname = formData.get('nickname');
-  //   const password = formData.get('password');
-  //   const confirm = formData.get('confirm');
-
-  const emailInput = document.getElementById('email');
-  const nicknameInput = document.getElementById('nickname');
-  const passwordInput = document.getElementById('password');
-  const confirmInput = document.getElementById('confirm');
-
-  const email = emailInput.value;
-  const nickname = nicknameInput.value;
-  const password = passwordInput.value;
-  const confirm = confirmInput.value;
-
-  //   const email = 'test1@gmail.com';
-  //   const nickname = 'papa';
-  //   const password = 'qwer1234';
-  //   const confirm = 'qwer1234';
+  const email = document.getElementById('email').value;
+  const nickname = document.getElementById('nickname').value;
+  const password = document.getElementById('password').value;
+  const confirm = document.getElementById('confirm').value;
 
   const signupInfo = { email, nickname, password, confirm };
 
