@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Petsitter Search</title>
+    <link rel="stylesheet" href="../css/main.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Petsitter Search</title>
-  <link rel="stylesheet" href="..css/main.css" />
-</head>
+  <body>
+    <header>
+      <div style="display: flex; align-items: center">
+        <h1 style="flex: 1">펫시터</h1>
 
-<body>
-  <header>
-    <div style="display: flex; align-items: center;">
-      <h1 style="flex: 1;">펫시터</h1>
-      <!-- 로그인 버튼 -->
-      <button id="loginBtn">로그인</button>
+        <button id="loginBtn">로그인</button>
+        <button id="logoutBtn">로그아웃</button>
+      </div>
+      <div>
+        <label for="carrer">검색 카테고리:</label>
+        <select id="category">
+          <option value="name">이름</option>
+          <option value="career">경력</option>
+        </select>
+        <label for="career">검색어:</label>
+        <input type="text" id="keyword" />
+        <button id="searchBtn">검색</button>
+      </div>
+    </header>
+
+    <div id="petsitterList">
+      <!-- 검색 결과가 이 곳에 표시됩니다 -->
     </div>
-    <div>
-      <label for="carrer">검색 카테고리:</label>
-      <select id="category">
-        <option value="name">이름</option>
-        <option value="career">경력</option>
-      </select>
-      <label for="career">검색어:</label>
-      <input type="text" id="keyword" />
-      <button id="searchBtn">검색</button>
-    </div>
-  </header>
 
-  <div id="petsitterList">
-    <!-- 검색 결과가 이 곳에 표시됩니다 -->
-  </div>
-
-  <script src="../javascript/petsitter.js"></script>
-</body>
-
+    <script src="../javascript/petsitter.js"></script>
+  </body>
 </html>
