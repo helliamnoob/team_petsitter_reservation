@@ -8,9 +8,9 @@ const { Reservations } = require('../models');
 router.get('/reservations', authMiddleware, async (req, res) => {
   try {
     const { user_id } = res.locals.user;
-    const reservation = await Reservations.findAll({ where: { User_id: user_id } });
+    const reservation = await Reservations.findOne({ where: { User_id: user_id } });
 
-    res.status(200).json(reservation);
+    res.status(200).json({ reservation });
   } catch (err) {
     console.error(err);
     res.status(500).json({ errorMessage: '예약 조회에 실패하였습니다.' });
@@ -22,7 +22,7 @@ router.post('/petsitters/:petsitter_id/reservations', authMiddleware, async (req
     const { user_id } = res.locals.user;
     const { petsitter_id } = req.params;
     const { start_date, end_date } = req.body;
-
+ 
     if (!start_date || !end_date) return res.status(400).json({ errorMessage: '날짜를 선택해주세요.' });
 
     await Reservations.create({

@@ -35,10 +35,3 @@ loginForm.addEventListener('submit', async (e) => {
     alert('로그인에 실패했습니다. 다시 시도해주세요.');
   }
 });
-
-// 회원가입 버튼 클릭 시 회원가입 페이지로 이동
-document.getElementById('signupBtn').addEventListener('click', signup);
-
-function signup() {
-  window.location.href = '/signup';
-}
