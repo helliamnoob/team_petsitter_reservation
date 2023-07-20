@@ -47,10 +47,10 @@ signupForm.addEventListener('submit', async (e) => {
       }
     });
 
-    // if (res.ok) {
-    //   // 회원가입이 성공적으로 처리되면 로그인 페이지로 이동
-    //   window.location.href = '/login'; // 로그인 페이지의 경로로 수정해야 합니다.
-    // }
+    if (res.ok) {
+      // 회원가입이 성공적으로 처리되면 로그인 페이지로 이동
+      window.location.href = '/login'; // 로그인 페이지의 경로로 수정해야 합니다.
+    }
   } catch (err) {
     console.error(err);
     alert('회원가입에 실패했습니다. 다시 시도해주세요.');
