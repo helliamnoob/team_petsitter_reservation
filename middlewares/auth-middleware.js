@@ -1,5 +1,6 @@
 const { Users } = require('../models');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 module.exports = async (req, res, next) => {
   // req.cookies에서 Authorization라는 이름의 쿠키를 꺼냄
@@ -15,7 +16,7 @@ module.exports = async (req, res, next) => {
 
   // 시크릿키 일치 검증
   try {
-    const { user_id } = jwt.verify(authToken, 'customized-secret-key');
+    const { user_id } = jwt.verify(authToken, process.env.SECRET_KEY);
     const user = await Users.findOne({ where: { user_id } });
 
     // 할당된 유저를 res.locals.user에 할당
