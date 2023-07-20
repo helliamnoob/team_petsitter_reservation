@@ -12,41 +12,45 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.Users,{
-        targetKey: 'userId', 
-        foreignKey: 'UserId', 
+        targetKey: 'user_id', 
+        foreignKey: 'User_id', 
       });
       this.belongsTo(models.Petsitters,{
-        targetKey: 'petsitterId', 
-        foreignKey: 'PetsitterId', 
+        targetKey: 'petsitter_id', 
+        foreignKey: 'Petsitter_id', 
       });
     }
   }
   Reservations.init({
-    reservationId: {
+    reservation_id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    UserId: {
+    User_id: {
       allowNull: false,
       type: DataTypes.INTEGER,
       references:{
         model:'Users',
-        key:'userId',
+        key:'user_id',
       },
       onDelete: 'CASCADE'
     },
-    PetsitterId: {
+    Petsitter_id: {
       allowNull: false,
       type: DataTypes.INTEGER,
       references:{
         model:'Petsitters',
-        key:'petsitterId',
+        key:'petsitter_id',
       },
       onDelete: 'CASCADE',
     },
-    date: {
+    start_date: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
+    end_date: {
       allowNull: false,
       type: DataTypes.DATE
     },
