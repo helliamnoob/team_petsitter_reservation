@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // 서버연결 확인 완료
 // app.get('/', (req, res) => {
@@ -30,6 +30,11 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'html', 'login.html'));
 });
+
+app.get('/reservation', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'html', 'reservation.html'));
+});
+
 
 app.use('/', [usersRouter, reviewsRouter, petsittersRouter, reservationRouter, profileRouter]);
 
