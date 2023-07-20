@@ -31,8 +31,9 @@ function displayReservation(reservation) {
   // 각 펫시터 정보를 리스트 아이템으로 생성하여 ul 요소에 추가합니다.
   reservation.map((reservation) => {
     const li = document.createElement('li');
-    // 각 펫시터의 이름과 경력 정보를 리스트 아이템에 텍스트로 추가합니다.
-    li.textContent = `${reservation.start_date} - enddate: ${reservation.end_date}`;
+    const start_date = `${reservation.start_date}`
+    const end_date = `${reservation.end_date}`;
+    li.textContent = "start date:" + start_date.substr(0,10) + " / " + "end date:" + end_date.substr(0,10);
     ul.appendChild(li);
   });
   // 생성한 ul 요소를 화면에 표시하기 위해 petsitterListDiv에 추가합니다.
