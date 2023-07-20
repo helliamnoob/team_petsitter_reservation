@@ -2,10 +2,17 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const path = require('path');
 require('dotenv').config();
 
 const authMiddleware = require('../middlewares/auth-middleware.js');
 const { Users } = require('../models');
+
+// 회원가입 페이지 띄우기
+router.get('/signup', (req, res) => {
+  const filePath = path.join(__dirname, '../public/html/signup.html');
+  res.sendFile(filePath);
+});
 
 // 회원가입
 router.post('/signup', async (req, res) => {
