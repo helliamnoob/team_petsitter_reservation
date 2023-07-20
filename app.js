@@ -31,11 +31,6 @@ app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'html', 'login.html'));
 });
 
-app.get('/reservation', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'html', 'reservation.html'));
-});
-
-
 app.use('/', [usersRouter, reviewsRouter, petsittersRouter, reservationRouter, profileRouter]);
 
 app.listen(PORT, HOST, () => {
