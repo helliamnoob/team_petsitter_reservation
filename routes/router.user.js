@@ -117,6 +117,12 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+// 로그인 페이지 띄우기
+router.get('/login', (req, res) => {
+  const filePath = path.join(__dirname, '../public/html/login.html');
+  res.sendFile(filePath);
+});
+
 // 로그인
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -135,7 +141,10 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({ user_id: user.user_id }, process.env.SECRET_KEY);
 
     // 쿠키 생성
-    res.cookie('Authorization', `Bearer ${token}`).status(201).json({ token });
+    res
+      .cookie('Authorization', `Bearer ${token}`)
+      .status(201)
+      .json({ token, message: '로그인에 성공하셨습니다.' });
   } catch (error) {
     console.log(error);
     res.status(500).json({ errorMessage: '로그인에 실패하였습니다.' });
