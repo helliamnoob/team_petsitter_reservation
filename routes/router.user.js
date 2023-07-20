@@ -200,6 +200,18 @@ router.delete('/users/:user_id', authMiddleware, async (req, res) => {
   }
 });
 
+router.get("/login", authMiddleware ,async(req,res)=> {
+  const { user_id } = res.locals.user;
+  console.log(user_id);
+  const user = await Users.findOne({
+      where:{user_id}
+  });
+  
+  res.status(200).json({data:user});
+});
+
+
+
 module.exports = router;
 
 // '"동물나라👻" <foo@example.com>'
