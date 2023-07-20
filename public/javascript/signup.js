@@ -39,15 +39,3 @@ signupForm.addEventListener('submit', async (e) => {
     alert('회원가입에 실패했습니다. 다시 시도해주세요.');
   }
 });
-
-// 취소 버튼 클릭 시 메인 페이지로 이동.
-document.getElementById('cancel').addEventListener('click', cancel);
-
-function cancel() {
-  window.location.href = '/';
-}
-
-// 로그인하러가기 버튼 클릭 시 로그인 페이지로 이동
-function login(url) {
-  window.location.href = url;
-}
