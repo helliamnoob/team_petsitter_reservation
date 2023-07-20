@@ -28,12 +28,11 @@ loginForm.addEventListener('submit', async (e) => {
         alert(result.errorMessage);
       } else {
         alert(result.message);
-        // window.location.reload();
       }
     });
 
     if (res.ok) {
-      window.location.href = '/petsitters/search'; // 로그인 되면 메인 페이지로 이동.
+      window.location.href = '/'; // 로그인 되면 메인 페이지로 이동.
     }
   } catch (err) {
     console.error(err);
