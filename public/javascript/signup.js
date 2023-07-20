@@ -1,5 +1,33 @@
-// 회원가입
-const signup = async (signupInfo) => {
+const signupForm = document.querySelector('.signup-form');
+
+// 이벤트 리스너를 통해 폼 제출 이벤트가 발생할 경우
+signupForm.addEventListener('submit', async (e) => {
+  // 페이지 리로드 방지
+  e.preventDefault();
+
+  //   const formData = new FormData(this);
+  //   const email = formData.get('email');
+  //   const nickname = formData.get('nickname');
+  //   const password = formData.get('password');
+  //   const confirm = formData.get('confirm');
+
+  const emailInput = document.getElementById('email');
+  const nicknameInput = document.getElementById('nickname');
+  const passwordInput = document.getElementById('password');
+  const confirmInput = document.getElementById('confirm');
+
+  const email = emailInput.value;
+  const nickname = nicknameInput.value;
+  const password = passwordInput.value;
+  const confirm = confirmInput.value;
+
+  //   const email = 'test1@gmail.com';
+  //   const nickname = 'papa';
+  //   const password = 'qwer1234';
+  //   const confirm = 'qwer1234';
+
+  const signupInfo = { email, nickname, password, confirm };
+
   try {
     const res = await fetch('/signup', {
       method: 'POST',
@@ -9,14 +37,22 @@ const signup = async (signupInfo) => {
       body: JSON.stringify(signupInfo),
     });
 
-    const data = await res.json();
-    alert(data.msg);
+    await res.json().then((result) => {
+      const errorMessage = result.errorMessage;
+      if (errorMessage) {
+        alert(result.errorMessage);
+      } else {
+        alert(result.message);
+        window.location.reload();
+      }
+    });
 
-    if (res.ok) {
-      // 로그인 페이지로 이동
-      window.location.href = '/login';
-    }
+    // if (res.ok) {
+    //   // 회원가입이 성공적으로 처리되면 로그인 페이지로 이동
+    //   window.location.href = '/login'; // 로그인 페이지의 경로로 수정해야 합니다.
+    // }
   } catch (err) {
     console.error(err);
+    alert('회원가입에 실패했습니다. 다시 시도해주세요.');
   }
-};
+});
