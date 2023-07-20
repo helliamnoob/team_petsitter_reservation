@@ -17,22 +17,6 @@ router.get('/reservations', authMiddleware, async (req, res) => {
   }
 });
 
-// router.get('/reservations', async (req, res) => {
-//   try {
-//     // { user_id } = res.locals.user;
-//     const reservation = await Reservations.findAll();
-//     const results = reservation.map((reserv) => {
-//       return {
-//        start_date: reserv.start_date,
-//        end_date: reserv.end_date,
-//       }});
-//     res.status(200).json(results);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ errorMessage: '예약 조회에 실패하였습니다.' });
-//   }
-// });
-
 router.post('/petsitters/:petsitter_id/reservations', authMiddleware, async (req, res) => {
   try {
     const { user_id } = res.locals.user;
