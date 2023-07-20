@@ -74,6 +74,15 @@ function redirectToLoginPage() {
 // 로그인 버튼에 클릭 이벤트 리스너를 추가합니다.
 document.getElementById('loginBtn').addEventListener('click', redirectToLoginPage);
 
+// 예약하기 버튼을 클릭하면 예약 페이지로 이동하는 함수
+function redirectToReservPage() {
+  // 예약 페이지로 이동합니다.
+  window.location.href = '/reservation';
+}
+
+// 예약 버튼에 클릭 이벤트 리스너를 추가합니다.
+document.getElementById('reservationBtn').addEventListener('click', redirectToReservPage);
+
 // 로그아웃 버튼에 이벤트 리스너 추가
 document.getElementById('logoutBtn').addEventListener('click', logout);
 
