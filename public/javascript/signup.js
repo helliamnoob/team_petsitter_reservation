@@ -48,8 +48,7 @@ signupForm.addEventListener('submit', async (e) => {
     });
 
     if (res.ok) {
-      // 회원가입이 성공적으로 처리되면 로그인 페이지로 이동
-      window.location.href = '/login'; // 로그인 페이지의 경로로 수정해야 합니다.
+      window.location.href = '/login'; // 회원가입 완료시 로그인 페이지로 이동.
     }
   } catch (err) {
     console.error(err);
