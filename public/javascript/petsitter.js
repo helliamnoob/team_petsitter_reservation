@@ -83,6 +83,12 @@ function redirectToReservPage() {
 // 예약 버튼에 클릭 이벤트 리스너를 추가합니다.
 document.getElementById('reservationBtn').addEventListener('click', redirectToReservPage);
 
+function redirectToProfilePage() {
+  window.location.href = '/profile';
+}
+
+document.getElementById('profileBtn').addEventListener('click', redirectToProfilePage);
+
 // 로그아웃 버튼에 이벤트 리스너 추가
 document.getElementById('logoutBtn').addEventListener('click', logout);
 
