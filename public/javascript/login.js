@@ -5,12 +5,8 @@ loginForm.addEventListener('submit', async (e) => {
   // 페이지 리로드 방지
   e.preventDefault();
 
-  const emailInput = document.getElementById('email');
-  const passwordInput = document.getElementById('password');
-
-  const email = emailInput.value;
-  const password = passwordInput.value;
-
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
   const login = { email, password };
 
   try {
