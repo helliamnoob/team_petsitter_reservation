@@ -24,7 +24,7 @@ app.use(cookieParser());
 // });
 // 루트 경로에 대한 핸들러
 app.get('/', (req, res) => {
-  res.render('main');
+  res.sendFile(path.join(__dirname, 'public', 'html', 'main.html'));
 });
 
 app.use('/', [usersRouter, reviewsRouter, petsittersRouter, reservationRouter, profileRouter]);
