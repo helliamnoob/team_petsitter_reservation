@@ -63,5 +63,14 @@ function displayPetsitters(petsitters) {
 // 검색 버튼을 클릭하면 검색어로 petsitters를 검색하는 함수를 실행합니다.
 document.getElementById('searchBtn').addEventListener('click', searchPetsitters);
 
+// 로그인 버튼을 클릭하면 로그인 페이지로 이동하는 함수
+function redirectToLoginPage() {
+    // 로그인 페이지로 이동합니다.
+    window.location.href = '/html/login.html';
+}
+
+// 로그인 버튼에 클릭 이벤트 리스너를 추가합니다.
+document.getElementById('loginBtn').addEventListener('click', redirectToLoginPage);
+
 // 페이지가 로드되면 모든 펫시터 목록을 가져와서 표시합니다.
 getPetsitters();
