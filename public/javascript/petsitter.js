@@ -68,7 +68,7 @@ document.getElementById('searchBtn').addEventListener('click', searchPetsitters)
 // 로그인 버튼을 클릭하면 로그인 페이지로 이동하는 함수
 function redirectToLoginPage() {
   // 로그인 페이지로 이동합니다.
-  window.location.href = '/html/login.html';
+  window.location.href = '/login';
 }
 
 // 로그인 버튼에 클릭 이벤트 리스너를 추가합니다.
