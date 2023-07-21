@@ -22,7 +22,7 @@ router.post('/petsitters/:petsitter_id/reservations', authMiddleware, async (req
     const { user_id } = res.locals.user;
     const { petsitter_id } = req.params;
     const { start_date, end_date } = req.body;
- 
+
     if (!start_date || !end_date) return res.status(400).json({ errorMessage: '날짜를 선택해주세요.' });
 
     await Reservations.create({
