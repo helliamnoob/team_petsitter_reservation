@@ -3,6 +3,7 @@ const router = express.Router();
 const { Users, Reservations, Reviews } = require('../models');
 const auth = require('../middlewares/auth-middleware');
 
+// 유저의 정보와 예약내역, 리뷰내역을 조회하는 로직
 router.get('/profile/:user_id', auth, async (req, res) => {
   // email, nickname, reservation
   try {
@@ -15,7 +16,13 @@ router.get('/profile/:user_id', auth, async (req, res) => {
       where: { User_id: user_id },
     });
     const review = await Reviews.findAll({ where: { User_id: user_id } });
-    return res.status(200).json({ userInfo: user, Reservations: reservation, Reviews: review });
+
+    return res.status(200).json({
+      message: '정보조회에 성공하였습니다.',
+      userInfo: user,
+      Reservations: reservation,
+      Reviews: review,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ errorMessage: '프로필 조회에 실패하였습니다.' });
