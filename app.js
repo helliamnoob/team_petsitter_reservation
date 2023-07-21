@@ -35,6 +35,10 @@ app.get('/reservation', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'html', 'reservation.html'));
 });
 
+// 프로필 조회 화면 띄우는 코드
+app.get('/profile', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'html', 'profile.html'));
+});
 
 app.use('/', [usersRouter, reviewsRouter, petsittersRouter, reservationRouter, profileRouter]);
 
