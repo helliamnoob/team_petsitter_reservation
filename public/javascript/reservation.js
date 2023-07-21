@@ -31,9 +31,10 @@ function displayReservation(reservation) {
   // 각 펫시터 정보를 리스트 아이템으로 생성하여 ul 요소에 추가합니다.
   reservation.map((reservation) => {
     const li = document.createElement('li');
-    const start_date = `${reservation.start_date}`
+    const start_date = `${reservation.start_date}`;
     const end_date = `${reservation.end_date}`;
-    li.textContent = "start date:" + start_date.substr(0,10) + "   /   " + "end date:" + end_date.substr(0,10);
+    li.textContent =
+      'start date:' + start_date.substr(0, 10) + '   /   ' + 'end date:' + end_date.substr(0, 10);
     ul.appendChild(li);
   });
   // 생성한 ul 요소를 화면에 표시하기 위해 petsitterListDiv에 추가합니다.
@@ -43,3 +44,36 @@ function displayReservation(reservation) {
 // 페이지가 로드되면 모든 펫시터 목록을 가져와서 표시합니다.
 getReservation();
 
+document.addEventListener('DOMContentLoaded', async function () {
+  let calendarEl = document.getElementById('calendar');
+
+  let calendar = new FullCalendar.Calendar(calendarEl, {
+    selectable: true,
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay',
+    },
+    dateClick: async function (info) {
+      alert('selected ' + info.date);
+      const petsitter_id = 3;
+      const response = await fetch(`/petsitters/${petsitter_id}/reservations`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ start_date: info.date, end_date: info.date }),
+      });
+      await response.json().then((result) => {
+        const errorMessage = result.errorMessage;
+        if (errorMessage) {
+          alert(result.errorMessage);
+        } else {
+          alert(result.message);
+        }
+        window.location.reload();
+      });
+    },
+  });
+  calendar.render();
+});

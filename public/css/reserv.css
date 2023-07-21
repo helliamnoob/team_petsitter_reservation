@@ -6,7 +6,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     min-height: 100vh;
-    color: #fff; /* 텍스트 색상을 흰색으로 설정합니다. */
+    color: #000000; /* 텍스트 색상을 흰색으로 설정합니다. */
   }
   /* 추가 스타일로 배경과의 대비를 높입니다. */
 h1,

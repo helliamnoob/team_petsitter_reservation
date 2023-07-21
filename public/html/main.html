@@ -26,8 +26,29 @@
       <input type="text" id="keyword" />
       <button id="searchBtn">검색</button>
       <button id="reservationBtn">예약하기</button>
-    </div>
   </header>
+  <main>
+      <div class="chat">
+        <h3>실시간 문의</h3>
+        <div>
+          <div id="chat-log"></div>
+          <input
+            type="text"
+            id="nickname"
+            placeholder="닉네임"
+            style="width: 50px"
+          />
+          <input
+            type="text"
+            id="message"
+            placeholder="메세지"
+            style="width: 200px"
+          />
+          <button id="chatBtn">전송</button>
+        </div>
+      </div>
+    </div>
+  </main>
 
   <div id="petsitterList">
     <!-- 검색 결과가 이 곳에 표시됩니다 -->
