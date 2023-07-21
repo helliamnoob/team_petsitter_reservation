@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authMiddleware = require('../middlewares/auth-middleware');
-const { Petsitters } = require('../models');
+
 const { Reservations } = require('../models');
 
 router.get('/reservations', authMiddleware, async (req, res) => {

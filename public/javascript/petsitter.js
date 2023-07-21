@@ -49,17 +49,16 @@ function displayPetsitters(petsitters) {
     return;
   }
 
-  // 검색 결과를 리스트 형태로 표시하기 위해 ul 요소를 생성합니다.
-  const ul = document.createElement('ul');
   // 각 펫시터 정보를 리스트 아이템으로 생성하여 ul 요소에 추가합니다.
   petsitters.forEach((petsitter) => {
-    const li = document.createElement('li');
-    // 각 펫시터의 이름과 경력 정보를 리스트 아이템에 텍스트로 추가합니다.
-    li.textContent = `${petsitter.name} - Career: ${petsitter.career}`;
-    ul.appendChild(li);
+    const name = petsitter['name'];
+    const career = petsitter['career'];
+    const id = petsitter['petsitter_id'];
+    const temp_html = `<div class="pslist">
+            <p class="desc"> 이름: ${name} / career: ${career}</p><button type="button" onclick=window.location.href='/petsitters/id=:${id}'>예약하기</button>
+          </div>`;
+    petsitterListDiv.insertAdjacentHTML('beforeend', temp_html);
   });
-  // 생성한 ul 요소를 화면에 표시하기 위해 petsitterListDiv에 추가합니다.
-  petsitterListDiv.appendChild(ul);
 }
 
 // 검색 버튼을 클릭하면 검색어로 petsitters를 검색하는 함수를 실행합니다.

@@ -4,7 +4,6 @@ async function getReservation() {
     const response = await fetch('/reservations');
     // 서버로부터 받은 JSON 데이터를 파싱하여 JavaScript 객체로 변환합니다.
     const reservation = await response.json();
-    console.log(reservation);
     // reservation 목록을 표시하는 함수를 호출합니다.
     displayReservation(reservation);
   } catch (error) {
@@ -30,12 +29,13 @@ function displayReservation(reservation) {
   const ul = document.createElement('ul');
   // 각 펫시터 정보를 리스트 아이템으로 생성하여 ul 요소에 추가합니다.
   reservation.map((reservation) => {
-    const li = document.createElement('li');
-    const start_date = `${reservation.start_date}`;
-    const end_date = `${reservation.end_date}`;
-    li.textContent =
-      'start date:' + start_date.substr(0, 10) + '   /   ' + 'end date:' + end_date.substr(0, 10);
-    ul.appendChild(li);
+    const name = reservation['name'];
+    const career = reservation['career'];
+    const id = reservation['petsitter_id'];
+    const temp_html = `<div class="pslist">
+            <p class="desc"> 이름: ${name} / career: ${career}</p><button type="button" onclick=window.location.href='/petsitters/id=:${id}'>예약하기</button>
+          </div>`;
+    petsitterListDiv.insertAdjacentHTML('beforeend', temp_html);
   });
   // 생성한 ul 요소를 화면에 표시하기 위해 petsitterListDiv에 추가합니다.
   reservationList.appendChild(ul);
@@ -43,37 +43,3 @@ function displayReservation(reservation) {
 
 // 페이지가 로드되면 모든 펫시터 목록을 가져와서 표시합니다.
 getReservation();
-
-document.addEventListener('DOMContentLoaded', async function () {
-  let calendarEl = document.getElementById('calendar');
-
-  let calendar = new FullCalendar.Calendar(calendarEl, {
-    selectable: true,
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay',
-    },
-    dateClick: async function (info) {
-      alert('selected ' + info.date);
-      const petsitter_id = 3;
-      const response = await fetch(`/petsitters/${petsitter_id}/reservations`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ start_date: info.date, end_date: info.date }),
-      });
-      await response.json().then((result) => {
-        const errorMessage = result.errorMessage;
-        if (errorMessage) {
-          alert(result.errorMessage);
-        } else {
-          alert(result.message);
-        }
-        window.location.reload();
-      });
-    },
-  });
-  calendar.render();
-});
