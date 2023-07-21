@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="../javascript/signup.js"></script>
-    <title>동물나라</title>
-  </head>
-  <body>
-    <header>
-      <h1>👻동물나라 회원가입👻</h1>
-    </header>
-    <div>
-      <form class="signup-form">
-        <input type="email" name="email" id="email" placeholder="이메일 입력" />
-        <input type="text" name="nickname" id="nickname" placeholder="닉네임 입력" />
-        <input type="password" name="password" id="password" placeholder="패스워드 입력" />
-        <input type="password" name="confirm" id="confirm" placeholder="패스워드 확인" />
 
-        <button type="submit" class="signup-button">가입하기</button>
-        <button type="button" class="signup-cancel">취소</button>
-      </form>
-    </div>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script defer src="../javascript/signup.js"></script>
+  <title>🐼동물나라</title>
+</head>
+
+<body>
+  <header>
+    <h1>👻동물나라 회원가입👻</h1>
+  </header>
+  <div>
+    <form class="signup-form">
+      <input type="email" name="email" id="email" placeholder="이메일 입력" />
+      <input type="text" name="nickname" id="nickname" placeholder="닉네임 입력" />
+      <input type="password" name="password" id="password" placeholder="패스워드 입력" />
+      <input type="password" name="confirm" id="confirm" placeholder="패스워드 확인" />
+
+      <button type="submit">가입하기</button>
+      <button type="button" id="cancel">취소</button>
+    </form>
+    <button onclick="login('/login')">로그인 하러가기</button>
+  </div>
+</body>
+
 </html>
