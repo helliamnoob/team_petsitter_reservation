@@ -33,7 +33,7 @@ function displayReservation(reservation) {
     const li = document.createElement('li');
     const start_date = `${reservation.start_date}`
     const end_date = `${reservation.end_date}`;
-    li.textContent = "start date:" + start_date.substr(0,10) + " / " + "end date:" + end_date.substr(0,10);
+    li.textContent = "start date:" + start_date.substr(0,10) + "   /   " + "end date:" + end_date.substr(0,10);
     ul.appendChild(li);
   });
   // 생성한 ul 요소를 화면에 표시하기 위해 petsitterListDiv에 추가합니다.
@@ -42,3 +42,4 @@ function displayReservation(reservation) {
 
 // 페이지가 로드되면 모든 펫시터 목록을 가져와서 표시합니다.
 getReservation();
+
