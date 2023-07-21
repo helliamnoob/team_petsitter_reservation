@@ -51,7 +51,7 @@ router.put('/reservations/:reservation_id', authMiddleware, async (req, res) => 
 
     if (user_id !== reservation.User_id)
       return res.status(403).json({ errorMessage: '예약의 수정 권한이 없습니다.' });
-    if (!date) return res.status(412).json({ errorMessage: '날짜를 입력해주세요.' });
+    if (!start_date || !end_date ) return res.status(412).json({ errorMessage: '날짜를 입력해주세요.' });
 
     await Reservations.update(
       { start_date, end_date },
