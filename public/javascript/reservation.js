@@ -54,54 +54,26 @@ document.addEventListener('DOMContentLoaded', async function () {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay',
     },
-    dateClick: function (info) {
-      alert('clicked ' + info.dateStr);
-    },
-    select: async function (info) {
-      alert('selected ' + info.startStr + ' to ' + info.endStr);
-      var start_date = info.dateStr;
-      var end_date = info.endStr;
+    dateClick: async function (info) {
+      alert('selected ' + info.date);
       const petsitter_id = 3;
       const response = await fetch(`/petsitters/${petsitter_id}/reservations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(start_date, end_date),
+        body: JSON.stringify({ start_date: info.date, end_date: info.date }),
       });
       await response.json().then((result) => {
         const errorMessage = result.errorMessage;
         if (errorMessage) {
           alert(result.errorMessage);
         } else {
-          alert(response);
+          alert(result.message);
         }
+        window.location.reload();
       });
     },
+  });
+  calendar.render();
 });
-    calendar.render();
-});
-
-// // 예약하기 함수
-// async function postReservation() {
-//     // 검색 카테고리와 검색어 입력값을 가져옵니다.
-//     caselect: function(info) {
-//         alert('selected ' + info.startStr + ' to ' + info.endStr);
-//       }
-//     // 검색어가 비어있으면 함수를 종료하고 검색을 수행하지 않습니다.
-//     if (!keywordInput) return;
-
-//     try {
-//       // 검색어를 서버에 전달하고 검색 결과를 받아옵니다.
-//       const response = await fetch(
-//         `/petsitters/search?category=${categoryInput}&keyword=${keywordInput}`
-//       );
-//       // 서버로부터 받은 JSON 데이터를 파싱하여 JavaScript 객체로 변환합니다.
-//       const petsitters = await response.json();
-//       // 검색 결과를 표시하는 함수를 호출합니다.
-//       displayPetsitters(petsitters);
-//     } catch (error) {
-//       // 오류가 발생하면 콘솔에 오류 메시지를 출력합니다.
-//       console.error(error);
-//     }
-//   }
