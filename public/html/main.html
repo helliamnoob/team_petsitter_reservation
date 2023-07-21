@@ -5,15 +5,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Petsitter Search</title>
-  <link rel="stylesheet" href="css\main.css" />
+  <link rel="stylesheet" href="../css/main.css" />
 </head>
-
 <body>
   <header>
-    <div style="display: flex; align-items: center;">
-      <h1 style="flex: 1;">펫시터</h1>
-      <!-- 로그인 버튼 -->
+    <div style="display: flex; align-items: center">
+      <h1 style="flex: 1">펫시터</h1>
+
+      <button id="profileBtn">🐳</button>
       <button id="loginBtn">로그인</button>
+      <button id="logoutBtn">로그아웃</button>
     </div>
     <div>
       <label for="carrer">검색 카테고리:</label>
@@ -24,6 +25,7 @@
       <label for="career">검색어:</label>
       <input type="text" id="keyword" />
       <button id="searchBtn">검색</button>
+      <button id="reservationBtn">예약하기</button>
     </div>
   </header>
 
@@ -31,7 +33,7 @@
     <!-- 검색 결과가 이 곳에 표시됩니다 -->
   </div>
 
-  <script src="javascript\petsitter.js"></script>
+  <script src="../javascript/petsitter.js"></script>
 </body>
 
 </html>
