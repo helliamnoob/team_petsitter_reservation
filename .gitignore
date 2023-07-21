@@ -3,6 +3,7 @@
 
 # config
 config/
+config.json
 
 ### Node ###
 # Logs
@@ -145,5 +146,3 @@ dist
 .svelte-kit
 
 # End of https://www.toptal.com/developers/gitignore/api/node
-
-config.json
