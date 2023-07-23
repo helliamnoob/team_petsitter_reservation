@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { Op } = require('sequelize');
 
 const authMiddleware = require('../middlewares/auth-middleware');
 
@@ -7,9 +8,11 @@ const { Reservations, Petsitters } = require('../models');
 
 router.get('/reservations', authMiddleware, async (req, res) => {
   try {
+    let today = new Date(); 
     const { user_id } = res.locals.user;
+    console.log(today);
     const reservation = await Reservations.findAll({
-      where: { User_id: user_id },
+      where: { User_id: user_id, end_date: {[Op.gte]: today} },
       include: [
         {
           model: Petsitters,
@@ -17,6 +20,8 @@ router.get('/reservations', authMiddleware, async (req, res) => {
         },
       ],
     });
+
+
     res.status(200).json(reservation);
   } catch (err) {
     console.error(err);
