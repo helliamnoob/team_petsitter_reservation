@@ -39,6 +39,10 @@ app.get('/petsitters/id=:id', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'html', 'psdetail.html'));
 });
 
+app.get('/reservation/id=:id', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'html', 'psdetail.html'));
+});
+
 // 프로필 조회 화면 띄우는 코드
 app.get('/profile', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'html', 'profile.html'));

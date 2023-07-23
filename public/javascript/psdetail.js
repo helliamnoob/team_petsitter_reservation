@@ -5,8 +5,15 @@ if (idx >= 0) {
    idx = idx + 2;
    id = url.substring(idx, url.length);
 }
-console.log(id);
+let status = url.indexOf('petsitters');
+let post = false;
+if( status >= 0){
+    post = true;
+}
+console.log(post);
 
+if(post === true)
+{
 document.addEventListener('DOMContentLoaded', async function () {
     let calendarEl = document.getElementById('calendar');
   
@@ -39,3 +46,39 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
     calendar.render();
   });
+}
+else if(post === false)
+{
+    document.addEventListener('DOMContentLoaded', async function () {
+        let calendarEl = document.getElementById('calendar');
+      
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+          selectable: true,
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+          },
+          dateClick: async function (info) {
+            alert('selected ' + info.date);
+            const response = await fetch(`/reservations/${id}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ start_date: info.date, end_date: info.date }),
+            });
+            await response.json().then((result) => {
+              const errorMessage = result.errorMessage;
+              if (errorMessage) {
+                alert(result.errorMessage);
+              } else {
+                alert(result.message);
+              }
+              window.location.href='/reservation'
+            });
+          },
+        });
+        calendar.render();
+      });
+}
