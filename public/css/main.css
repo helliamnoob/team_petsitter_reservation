@@ -52,6 +52,7 @@ button {
 }
 
 #petsitterList {
+  width: 800px;
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 5px;
@@ -82,4 +83,25 @@ table th {
   color: #fff;
   border-radius: 5px;
   margin-top: 10px;
+}
+
+main .chat {
+  background-color: white;
+  color: black;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 5px;
+  width: 400px;
+  float: right;
+}
+
+main h3 {
+  color: #336699;
+  text-align: center;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5)
+}
+
+#chat-log {
+  height: 250px;
+  overflow-y: auto;
 }
