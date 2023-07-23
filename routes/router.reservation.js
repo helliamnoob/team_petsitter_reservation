@@ -2,14 +2,21 @@ const express = require('express');
 const router = express.Router();
 
 const authMiddleware = require('../middlewares/auth-middleware');
-const { Petsitters } = require('../models');
-const { Reservations } = require('../models');
+
+const { Reservations, Petsitters } = require('../models');
 
 router.get('/reservations', authMiddleware, async (req, res) => {
   try {
     const { user_id } = res.locals.user;
-    const reservation = await Reservations.findAll({ where: { User_id: user_id } });
-
+    const reservation = await Reservations.findAll({
+      where: { User_id: user_id },
+      include: [
+        {
+          model: Petsitters,
+          attributes: ['name'],
+        },
+      ],
+    });
     res.status(200).json(reservation);
   } catch (err) {
     console.error(err);
