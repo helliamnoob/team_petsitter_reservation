@@ -111,5 +111,49 @@ async function logout() {
   }
 }
 
+const ws = new WebSocket('ws://localhost:3001');
+
+function clearMessage() {
+  document.getElementById('message').value = '';
+}
+
+function scrollToBottom() {
+  const chatLog = document.getElementById('chat-log');
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+// 메세지 전송
+function sendMessage() {
+  const nickname = document.getElementById('nickname').value;
+  const message = document.getElementById('message').value;
+
+  if (!nickname || !message) {
+    return;
+  }
+  const fullMessage = `${nickname}: ${message}`;
+
+  ws.send(fullMessage);
+  clearMessage();
+}
+
+// 메세지 수신
+function receiveMessage(event) {
+  const chat = document.createElement('div');
+  const message = document.createTextNode(event.data);
+  chat.appendChild(message);
+
+  const chatLog = document.getElementById('chat-log');
+  chatLog.appendChild(chat);
+  scrollToBottom();
+}
+
+ws.onmessage = receiveMessage;
+
+document.getElementById('chatBtn').addEventListener('click', sendMessage);
+document.getElementById('message').addEventListener('keypress', function (event) {
+  if (event.keyCode === 13) {
+    sendMessage();
+  }
+});
 // 페이지가 로드되면 모든 펫시터 목록을 가져와서 표시합니다.
 getPetsitters();
