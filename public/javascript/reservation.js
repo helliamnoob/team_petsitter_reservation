@@ -25,21 +25,52 @@ function displayReservation(reservation) {
     return;
   }
 
-  // 검색 결과를 리스트 형태로 표시하기 위해 ul 요소를 생성합니다.
-  const ul = document.createElement('ul');
-  // 각 펫시터 정보를 리스트 아이템으로 생성하여 ul 요소에 추가합니다.
   reservation.map((reservation) => {
-    const name = reservation['name'];
-    const career = reservation['career'];
-    const id = reservation['petsitter_id'];
-    const temp_html = `<div class="pslist">
-            <p class="desc"> 이름: ${name} / career: ${career}</p><button type="button" onclick=window.location.href='/petsitters/id=:${id}'>예약하기</button>
+    const name = reservation.Petsitter['name'];
+    const start_date = reservation['start_date'];
+    const start = start_date.substr(0,10);
+    const end_date = reservation['end_date'];
+    const end = end_date.substr(0,10)
+    const id = reservation['reservation_id'];
+    const temp_html = `<div class="reservlist">
+            <p class="desc"> 이름: ${name} / start: ${start} ~ end: ${end}</p>
+            <button type="button" onclick=window.location.href='/reservation/id=:${id}'>수정하기</button>
+            <button type="button" onclick=reservDelete(${id})>삭제하기</button>
           </div>`;
-    petsitterListDiv.insertAdjacentHTML('beforeend', temp_html);
+    reservationList.insertAdjacentHTML('beforeend', temp_html);
+    console.log(reservation);
   });
-  // 생성한 ul 요소를 화면에 표시하기 위해 petsitterListDiv에 추가합니다.
-  reservationList.appendChild(ul);
 }
+
+async function reservDelete(id){
+  try {
+    const res = await fetch(`/reservations/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({reservation_id: id}),
+    });
+
+    await res.json().then((result) => {
+      const errorMessage = result.errorMessage;
+      if (errorMessage) {
+        alert(result.errorMessage);
+      } else {
+        alert(result.message);
+        window.location.reload();
+      }
+    })
+    if (res.ok) {
+      window.location.href = '/reservation'; // 회원가입 완료시 로그인 페이지로 이동.
+    }
+  }
+  catch (err) {
+  console.error(err);
+  alert('예약삭제에 실패했습니다. 다시 시도해주세요.');
+}
+}
+
 
 // 페이지가 로드되면 모든 펫시터 목록을 가져와서 표시합니다.
 getReservation();
