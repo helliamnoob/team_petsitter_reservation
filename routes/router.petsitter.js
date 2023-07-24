@@ -35,7 +35,7 @@ router.get('/petsitters/search', async (req, res) => {
         if (category === 'career') {
             searchCondition = {
                 career: {
-                    [Op.gt]: parseInt(keyword),
+                    [Op.gte]: parseInt(keyword),
                 },
             };
         }
