@@ -1,15 +1,25 @@
 const express = require('express');
 const router = express.Router();
-
+const { Op } = require('sequelize');
+const { Reservations, Petsitters } = require('../models');
 const authMiddleware = require('../middlewares/auth-middleware');
-const { Petsitters } = require('../models');
-const { Reservations } = require('../models');
+const today = new Date(); 
+
 
 router.get('/reservations', authMiddleware, async (req, res) => {
   try {
+    
     const { user_id } = res.locals.user;
-    const reservation = await Reservations.findAll({ where: { User_id: user_id } });
-
+    console.log(today);
+    const reservation = await Reservations.findAll({
+      where: { User_id: user_id, end_date: {[Op.gte]: today} },
+      include: [
+        {
+          model: Petsitters,
+          attributes: ['name'],
+        },
+      ],
+    });
     res.status(200).json(reservation);
   } catch (err) {
     console.error(err);
@@ -23,11 +33,17 @@ router.post('/petsitters/:petsitter_id/reservations', authMiddleware, async (req
     const { petsitter_id } = req.params;
     const { start_date, end_date } = req.body;
 
-    console.log(start_date, end_date); // undefined
+    const reservation = await Reservations.findOne({
+      where: {Petsitter_id: petsitter_id, start_date: start_date}
+    });
+
+    //이미 예약이 잡혀있으면 예약불가
+    if(reservation)
+      return res.status(400).json({ errorMessage: '해당 날짜는 예약이 마감되었습니다' });
 
     if (!start_date || !end_date)
       return res.status(400).json({ errorMessage: '날짜를 선택해주세요.' });
-
+    
     await Reservations.create({
       User_id: user_id,
       Petsitter_id: petsitter_id,
