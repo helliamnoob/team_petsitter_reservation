@@ -5,6 +5,7 @@ const { Reservations, Petsitters } = require('../models');
 const authMiddleware = require('../middlewares/auth-middleware');
 const today = new Date(); 
 
+
 router.get('/reservations', authMiddleware, async (req, res) => {
   try {
     
@@ -19,7 +20,6 @@ router.get('/reservations', authMiddleware, async (req, res) => {
         },
       ],
     });
-
     res.status(200).json(reservation);
   } catch (err) {
     console.error(err);
