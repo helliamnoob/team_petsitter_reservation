@@ -50,6 +50,7 @@ const withDrawalBtn = document.getElementById('outBtn');
 const withDrawalFunc = async () => {
   const password = document.getElementById('password').value;
   const confirm = document.getElementById('confirm').value;
+  event.preventDefault();
   try {
     // 해당 URI로 DELETE요청을 보냄.
     const res = await fetch('/users/out', {
@@ -59,6 +60,7 @@ const withDrawalFunc = async () => {
       body: JSON.stringify({ password, confirm }),
       // 전달해서 로직으로 수행하고,
     });
+    console.log('전송')
     // JSON 형태로 결과값을 받는다.
     await res.json().then((result) => {
       console.log('11');
@@ -70,14 +72,16 @@ const withDrawalFunc = async () => {
       } else {
         console.log('9, hi');
         alert(result.message);
-        window.location.href = '/';
+        
       }
     });
+    if (res.ok) {
+      window.location.href = '/'; // 성공시 메인페이지 이동.
+    }
   } catch (err) {
     console.log(err);
   }
 };
-withDrawalBtn.addEventListener('click', withDrawalFunc);
 
 function goMainFunc() {
   window.location.href = '/';
