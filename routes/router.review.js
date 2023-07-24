@@ -23,7 +23,7 @@ router.post('/petsitters/:petsitter_id/reviews', authMiddleware, async (req, res
     const { petsitter_id } = req.params;
     const { content, rating } = req.body;
 
-    const bookingConfirmation = await Reservations.findOne({ where: { User_id: user_id, Petsitter_id: petsitter_id}});
+    const bookingConfirmation = await Reservations.findOne({ where: { User_id: user_id, Petsitter_id: petsitter_id } });
 
     if (!bookingConfirmation)
       return res.status(403).json({ errorMessage: '리뷰 작성 권한이 없습니다.' });
