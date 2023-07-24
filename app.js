@@ -1,4 +1,5 @@
 const express = require('express');
+const { WebSocketServer } = require('ws');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
@@ -11,6 +12,26 @@ const profileRouter = require('./routes/router.profile');
 const HOST = '127.0.0.1';
 const PORT = 3000;
 const app = express();
+
+// 웹소켓 서버 생성
+const wss = new WebSocketServer({ port: 3001 });
+
+wss.broadcast = (message) => {
+  wss.clients.forEach((client) => {
+    client.send(message);
+  });
+};
+
+wss.on('connection', (ws, request) => {
+  wss.broadcast(`새로운 유저가 접속했습니다. 현재 유저 ${wss.clients.size} 명`);
+  ws.on('message', (data) => {
+    wss.broadcast(data.toString());
+  });
+
+  ws.on('close', () => {
+    wss.broadcast(`유저 한명이 떠났습니다. 현재 유저 ${wss.clients.size} 명`);
+  });
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
