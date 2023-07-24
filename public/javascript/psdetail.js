@@ -12,9 +12,12 @@ if (status >= 0) {
 }
 console.log(post);
 
+<<<<<<< HEAD
 // id 변수를 전역으로 선언하여 리뷰 삭제 버튼 클릭 이벤트 핸들러에서도 접근 가능하게 함
 let reviewId;
 
+=======
+>>>>>>> main
 if (post === true) {
   document.addEventListener('DOMContentLoaded', async function () {
     let calendarEl = document.getElementById('calendar');
@@ -55,6 +58,7 @@ if (post === true) {
     });
     calendar.render();
   });
+<<<<<<< HEAD
 } else if (post === false) {
   document.addEventListener('DOMContentLoaded', async function () {
     let calendarEl = document.getElementById('calendar');
@@ -182,3 +186,40 @@ document.addEventListener('DOMContentLoaded', async function () {
   // 페이지 로드 시 리뷰 목록을 표시합니다.
   displayReviews();
 });
+=======
+}else if(post === false)
+{
+    document.addEventListener('DOMContentLoaded', async function () {
+        let calendarEl = document.getElementById('calendar');
+      
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+          selectable: true,
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+          },
+          dateClick: async function (info) {
+            alert('selected ' + info.date);
+            const response = await fetch(`/reservations/${id}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ start_date: info.date, end_date: info.date }),
+            });
+            await response.json().then((result) => {
+              const errorMessage = result.errorMessage;
+              if (errorMessage) {
+                alert(result.errorMessage);
+              } else {
+                alert(result.message);
+              }
+              window.location.href='/reservation'
+            });
+          },
+        });
+        calendar.render();
+      });
+}
+>>>>>>> main

@@ -4,10 +4,10 @@ const { Users, Reservations, Reviews } = require('../models');
 const auth = require('../middlewares/auth-middleware');
 
 // 유저의 정보와 예약내역, 리뷰내역을 조회하는 로직
-router.get('/profile/:user_id', auth, async (req, res) => {
+router.get('/profiles', auth, async (req, res) => {
   // email, nickname, reservation
   try {
-    const { user_id } = req.params;
+    const { user_id } = res.locals.user
     const user = await Users.findOne({
       where: { user_id },
       attributes: ['user_id', 'email', 'nickname', 'createdAt', 'updatedAt'],
