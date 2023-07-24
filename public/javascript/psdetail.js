@@ -63,31 +63,32 @@ if (post === true) {
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay',
       },
-      
+
       dateClick: async function (info) {
         alert('selected ' + info.date);
         const check = info.date;
         const today = new Date();
         if (check < today) {
-            alert('과거는 예약할 수 없습니다.');
+          alert('과거는 예약할 수 없습니다.');
         } else {
-        const response = await fetch(`/reservations/${id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ start_date: info.date, end_date: info.date }),
-        });
-        await response.json().then((result) => {
-          const errorMessage = result.errorMessage;
-          if (errorMessage) {
-            alert(result.errorMessage);
-          } else {
-            alert(result.message);
-          }
-          window.location.href = '/reservation';
-        });
-      }},
+          const response = await fetch(`/reservations/${id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ start_date: info.date, end_date: info.date }),
+          });
+          await response.json().then((result) => {
+            const errorMessage = result.errorMessage;
+            if (errorMessage) {
+              alert(result.errorMessage);
+            } else {
+              alert(result.message);
+            }
+            window.location.href = '/reservation';
+          });
+        }
+      },
     });
     calendar.render();
   });
@@ -146,10 +147,33 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       // 리뷰 수정 버튼 클릭 이벤트 핸들러
       const editReviewBtn = reviewItem.querySelector('.editReviewBtn');
-      editReviewBtn.addEventListener('click', async function () {
-        // 수정할 리뷰 정보를 가져옵니다.
-        // 리뷰 수정을 위한 폼을 생성하고, 필요한 데이터를 기본값으로 채워 넣습니다.
-        // 사용자가 수정을 완료하면 PUT 요청을 보내서 리뷰를 수정합니다.
+      editReviewBtn.addEventListener('click', async function (e) {
+        const index = e.target.id;
+
+        const confirmUpdate = prompt('변경 내용을 작성해 주세요.');
+        if (confirmUpdate) {
+          const rating = prompt('평점을 작성해주세요 (1점 ~ 5점)');
+          const response = await fetch(`/reviews/${index}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              content: confirmUpdate,
+              rating,
+            }),
+          });
+
+          const result = await response.json();
+          const errorMessage = result.errorMessage;
+          if (errorMessage) {
+            alert(errorMessage);
+          } else {
+            alert(result.message);
+            // 리뷰를 삭제한 후, 페이지를 새로고침하여 리뷰 목록을 업데이트합니다.
+            window.location.reload();
+          }
+        }
       });
 
       // 리뷰 삭제 버튼 클릭 이벤트 핸들러
