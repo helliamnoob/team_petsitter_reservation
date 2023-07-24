@@ -63,8 +63,14 @@ if (post === true) {
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay',
       },
+      
       dateClick: async function (info) {
         alert('selected ' + info.date);
+        const check = info.date;
+        const today = new Date();
+        if (check < today) {
+            alert('과거는 예약할 수 없습니다.');
+        } else {
         const response = await fetch(`/reservations/${id}`, {
           method: 'PUT',
           headers: {
@@ -81,7 +87,7 @@ if (post === true) {
           }
           window.location.href = '/reservation'
         });
-      },
+      }},
     });
     calendar.render();
   });
