@@ -55,34 +55,38 @@ if (post === true) {
 } else if (post === false) {
   document.addEventListener('DOMContentLoaded', async function () {
     let calendarEl = document.getElementById('calendar');
-
-    let calendar = new FullCalendar.Calendar(calendarEl, {
-      selectable: true,
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay',
-      },
-      dateClick: async function (info) {
-        alert('selected ' + info.date);
-        const response = await fetch(`/reservations/${id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
+else if(post === false)
+{
+    document.addEventListener('DOMContentLoaded', async function () {
+        let calendarEl = document.getElementById('calendar');
+      
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+          selectable: true,
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay',
           },
-          body: JSON.stringify({ start_date: info.date, end_date: info.date }),
+          dateClick: async function (info) {
+            alert('selected ' + info.date);
+            const response = await fetch(`/reservations/${id}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ start_date: info.date, end_date: info.date }),
+            });
+            await response.json().then((result) => {
+              const errorMessage = result.errorMessage;
+              if (errorMessage) {
+                alert(result.errorMessage);
+              } else {
+                alert(result.message);
+              }
+              window.location.href='/reservation'
+            });
+          },
         });
-        await response.json().then((result) => {
-          const errorMessage = result.errorMessage;
-          if (errorMessage) {
-            alert(result.errorMessage);
-          } else {
-            alert(result.message);
-          }
-          window.location.href = '/reservation';
-        });
-      },
-    });
-    calendar.render();
-  });
+        calendar.render();
+      });
 }

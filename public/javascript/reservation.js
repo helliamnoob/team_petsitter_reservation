@@ -70,6 +70,5 @@ async function reservDelete(id){
   alert('예약삭제에 실패했습니다. 다시 시도해주세요.');
 }
 }
-
 // 페이지가 로드되면 모든 펫시터 목록을 가져와서 표시합니다.
 getReservation();
