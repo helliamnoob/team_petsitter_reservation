@@ -16,25 +16,28 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   fetch('/profiles')
     .then((res) => res.json())
     .then((data) => {
-      user.innerHTML = `<li> user_id : ${data.userInfo.user_id}<li>
-                                      <li>👫Nickname : ${data.userInfo.nickname}</li>
-                                      <li>💌Email : ${data.userInfo.email}</li>
+      user.innerHTML = `<li> 🐼user_id : ${data.userInfo.user_id}<li>
+                                      <li>🐼Nickname : ${data.userInfo.nickname}</li>
+                                      <li>🐼Email : ${data.userInfo.email}</li>
+                                      <p>===== <p>
                                       `;
       let b = '';
       data.Reservations.forEach((res) => {
         b += `
-                                      <li> Petsitter_id : ${res.Petsitter_id}<li>
-                                      <li> Start_date : ${res.start_date}</li>
-                                      <li> End_date : ${res.end_date}</li>
+                                      <li> 🐱Petsitter_id : ${res.Petsitter_id}<li>
+                                      <li> 🐻‍❄️Start_date : ${res.start_date}</li>
+                                      <li> 🐻‍❄️End_date : ${res.end_date}</li>
+                                      <p>===== <p>
                                       `;
       });
       reservations.innerHTML = b;
       let a = '';
       data.Reviews.forEach((review) => {
         a += `
-                                  <li> Petsitter_id : ${review.Petsitter_id}<li>
-                                  <li> content : ${review.content}</li>
-                                  <li> rating : ${review.rating}</li>
+                                  <li> 🐶Petsitter_id : ${review.Petsitter_id}<li>
+                                  <li> 🐰content : ${review.content}</li>
+                                  <li> 🐰rating : ${review.rating}</li>
+                                  <p>===== <p>
                                   `;
       });
       review.innerHTML = a;
