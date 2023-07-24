@@ -52,10 +52,7 @@ if (post === true) {
     });
     calendar.render();
   });
-} else if (post === false) {
-  document.addEventListener('DOMContentLoaded', async function () {
-    let calendarEl = document.getElementById('calendar');
-else if(post === false)
+}else if(post === false)
 {
     document.addEventListener('DOMContentLoaded', async function () {
         let calendarEl = document.getElementById('calendar');
