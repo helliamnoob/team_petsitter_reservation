@@ -85,7 +85,7 @@ if (post === true) {
           } else {
             alert(result.message);
           }
-          window.location.href = '/reservation'
+          window.location.href = '/reservation';
         });
       }},
     });
@@ -140,8 +140,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       reviewItem.innerHTML = `
         <p>${review.content}</p>
         <p>평점: ${review.rating}</p>
-        <button class="editReviewBtn" data-review-id="${review.id}">수정</button>
-        <button class="deleteReviewBtn" data-review-id="${review.id}">삭제</button>
+        <button class="editReviewBtn" id="${review.review_id}">수정</button>
+        <button class="deleteReviewBtn" id="${review.review_id}">삭제</button>
       `;
 
       // 리뷰 수정 버튼 클릭 이벤트 핸들러
@@ -154,12 +154,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       // 리뷰 삭제 버튼 클릭 이벤트 핸들러
       const deleteReviewBtn = reviewItem.querySelector('.deleteReviewBtn');
-      deleteReviewBtn.addEventListener('click', async function () {
-        const reviewId = this.dataset.reviewId;
-        console.log(reviewId)
+
+      deleteReviewBtn.addEventListener('click', async function (e) {
+        const index = e.target.id;
+
         const confirmDelete = confirm('리뷰를 삭제하시겠습니까?');
         if (confirmDelete) {
-          const response = await fetch(`/reviews/${reviewId}`, {
+          const response = await fetch(`/reviews/${index}`, {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',
@@ -184,4 +185,4 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   // 페이지 로드 시 리뷰 목록을 표시합니다.
   displayReviews();
-}); 
+});
