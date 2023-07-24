@@ -35,5 +35,22 @@
     <!-- 검색 결과가 이 곳에 표시됩니다 -->
   </div>
   <div id='calendar'></div>
+
+  <!-- 리뷰 작성 폼 -->
+  <div id="reviewForm">
+    <h2>리뷰 작성</h2>
+    <textarea id="reviewContent" placeholder="리뷰 내용을 입력하세요"></textarea>
+    <input type="number" id="reviewRating" placeholder="평점을 입력하세요 (1 ~ 5)">
+    <button id="submitReviewBtn">리뷰 작성</button>
+  </div>
+
+  <!-- 리뷰 리스트 -->
+  <div id="reviewList">
+    <h2>리뷰 목록</h2>
+    <ul id="reviews">
+      <!-- 리뷰 리스트가 이곳에 동적으로 생성됩니다. -->
+    </ul>
+  </div>
+
   <script src="../javascript/psdetail.js"></script>
 </body>
