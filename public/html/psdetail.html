@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+  <title>Petsitter Info</title>
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+
+<body>
+  <header>
+    <div style="display: flex; align-items: center">
+      <h1 style="flex: 1">펫시터</h1>
+
+      <button id="profileBtn">🐳</button>
+      <button id="loginBtn">로그인</button>
+      <button id="logoutBtn">로그아웃</button>
+    </div>
+    <div>
+      <label for="carrer">검색 카테고리:</label>
+      <select id="category">
+        <option value="name">이름</option>
+        <option value="career">경력</option>
+      </select>
+      <label for="career">검색어:</label>
+      <input type="text" id="keyword" />
+      <button id="searchBtn">검색</button>
+      <button id="reservationBtn" onclick=window.location.href="/">main</button>
+    </div>
+  </header>
+
+  <div id="petsitterList">
+    <!-- 검색 결과가 이 곳에 표시됩니다 -->
+  </div>
+  <div id='calendar'></div>
+
+  <!-- 리뷰 작성 폼 -->
+  <div id="reviewForm">
+    <h2>리뷰 작성</h2>
+    <textarea id="reviewContent" placeholder="리뷰 내용을 입력하세요"></textarea>
+    <input type="number" id="reviewRating" placeholder="평점을 입력하세요 (1 ~ 5)">
+    <button id="submitReviewBtn">리뷰 작성</button>
+  </div>
+
+  <!-- 리뷰 리스트 -->
+  <div id="reviewList">
+    <h2>리뷰 목록</h2>
+    <ul id="reviews">
+      <!-- 리뷰 리스트가 이곳에 동적으로 생성됩니다. -->
+    </ul>
+  </div>
+
+  <script src="../javascript/psdetail.js"></script>
+</body>
+
+</html>
