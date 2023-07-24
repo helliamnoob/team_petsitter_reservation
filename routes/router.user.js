@@ -167,21 +167,17 @@ router.get('/logout', authMiddleware, async (req, res) => {
 
 // 회원탈퇴
 router.delete('/users/out', authMiddleware, async (req, res) => {
-  console.log('1, hi');
   const { password, confirm } = req.body;
   const { user_id } = res.locals.user;
   const userPassword = res.locals.user.password;
   const user = await Users.findOne({ where: { user_id } });
+  console.log(user);
   try {
     if (!password.trim() || !confirm.trim()) {
       console.log('2, hi');
       return res.status(412).json({ errorMessage: '비밀번호를 입력해주세요.' });
     }
-    if (!user) {
-      console.log('3, hi');
-      return res.status(409).json({ errorMessage: '해당 유저가 존재하지 않습니다.' });
-    }
-    if (userPassword !== password) {
+    if (user.password !== password) {
       console.log('4, hi');
       return res.status(412).json({ errorMessage: '현재 유저의 비밀번호와 일치하지 않습니다.' });
     }
